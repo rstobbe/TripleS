@@ -102,7 +102,7 @@ set(gca,'fontsize',axisfont);
 set(gca,'fontweight','bold');
 set(gca,'xticklabelmode','auto');
 xlabel('(ms)','fontsize',labelfont);
-ylabel('Relative Magnetization','fontsize',labelfont);
+ylabel('Relative Magnetic Moment','fontsize',labelfont);
 set(gcf,'units','inches');
 set(gcf,'position',graphsize);
 set(gca,'Position',[0.12 0.12 0.8 0.7]);

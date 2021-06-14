@@ -8,7 +8,7 @@ function SEQ = CreateSequence(SEQ,SIM,iSS,iGA,iPC)
 % Delay
 %------------------------------------------    
 if (SEQ.Type == 2) | strcmp(SEQ.Type,'Delay') 
-    SEQ.woff = ones(1,round(SEQ.Dur/SEQ.Step)) * SIM.woff;
+    SEQ.gwoff = zeros(1,round(SEQ.Dur/SEQ.Step));               
     SEQ.w1 = zeros(1,round(SEQ.Dur/SEQ.Step));
     SEQ.TxA = zeros(1,round(SEQ.Dur/SEQ.Step));
 
@@ -16,7 +16,7 @@ if (SEQ.Type == 2) | strcmp(SEQ.Type,'Delay')
 % RF Pulse
 %------------------------------------------
 elseif SEQ.Type == 3 | strcmp(SEQ.Type,'Pulse') 
-    SEQ.woff = ones(1,round(SEQ.Dur/SEQ.Step)) * SIM.woff;
+    SEQ.gwoff = zeros(1,round(SEQ.Dur/SEQ.Step));     
     [SEQ.w1,SEQ.TxA] = CreatePulseArray(SEQ.Dur,SEQ.RfShape,SEQ.Flip,SEQ.Phase,SEQ.Step);
     rfspoil = 0;
     if SIM.SS > 1  
@@ -37,27 +37,28 @@ elseif SEQ.Type == 3 | strcmp(SEQ.Type,'Pulse')
 % Gradient
 %------------------------------------------    
 elseif SEQ.Type == 4 | strcmp(SEQ.Type,'Gradient')  
-    wof{k} = (iGA/tGA)*Create_Gradient_Array(Seq(k).length,Seq(k).step,Seq(k).shape,Seq(k).wgradt,Anlz.VoxSze) + Anlz.wof;
-    w1{k} = zeros(1,round(Seq(k).length/Seq(k).step));
-    Tx_A{k} = w1{k};
+%  ---  use 'gwoff'    
+%     wof{k} = (iGA/tGA)*Create_Gradient_Array(Seq(k).length,Seq(k).step,Seq(k).shape,Seq(k).wgradt,Anlz.VoxSze) + Anlz.wof;           
+%     w1{k} = zeros(1,round(Seq(k).length/Seq(k).step));
+%     Tx_A{k} = w1{k};
 
 %------------------------------------------
 % PulseGrad
 %------------------------------------------
 elseif SEQ.Type == 5 | strcmp(SEQ.Type,'PulseGrad')  
-    wof{k} = (GA/tGA)*Create_Gradient_Array(Seq(k).length,Seq(k).step,Seq(k).shape,Seq(k).wgradt,Anlz.VoxSze) + Anlz.wof;
-    [w1{k},Tx_A{k}] = CreatePulseArray(Seq(k).length,Seq(k).shape,Seq(k).ifa,Seq(k).phase,Seq(k).step);
-    if strcmp(Anlz.PCtype,'Acq-to-Acq PC')
-        Tx_A{k} = Tx_A{k} + (SS-1)*Seq(k).pcycle;
-    elseif strcmp(Anlz.PCtype,'Ave-to-Ave PC')
-        Tx_A{k} = Tx_A{k} + (PCA-1)*Seq(k).pcycle;
-    end
+%     wof{k} = (GA/tGA)*Create_Gradient_Array(Seq(k).length,Seq(k).step,Seq(k).shape,Seq(k).wgradt,Anlz.VoxSze) + Anlz.wof;
+%     [w1{k},Tx_A{k}] = CreatePulseArray(Seq(k).length,Seq(k).shape,Seq(k).ifa,Seq(k).phase,Seq(k).step);
+%     if strcmp(Anlz.PCtype,'Acq-to-Acq PC')
+%         Tx_A{k} = Tx_A{k} + (SS-1)*Seq(k).pcycle;
+%     elseif strcmp(Anlz.PCtype,'Ave-to-Ave PC')
+%         Tx_A{k} = Tx_A{k} + (PCA-1)*Seq(k).pcycle;
+%     end
     
 %------------------------------------------
 % RF Pulse
 %------------------------------------------
 elseif SEQ.Type == 6 | strcmp(SEQ.Type,'Acquire')  
-    SEQ.woff = ones(1,round(SEQ.Dur/SEQ.Step)) * SIM.woff;
+    SEQ.gwoff = zeros(1,round(SEQ.Dur/SEQ.Step));     
     SEQ.w1 = zeros(1,round(SEQ.Dur/SEQ.Step));
     SEQ.TxA = zeros(1,round(SEQ.Dur/SEQ.Step));
     SEQ.RxA = 0;    

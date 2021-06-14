@@ -13,7 +13,7 @@ classdef SequenceClass < handle
         Grad;
         PhaseCyc;
         Step;
-        woff; w1; TxA; RxA;
+        gwoff; w1; TxA; RxA;
         SolSteps;
     end
 

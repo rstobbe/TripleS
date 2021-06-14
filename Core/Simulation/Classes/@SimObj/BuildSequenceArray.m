@@ -62,7 +62,7 @@ for iPC = 1:SIM.PCave
                 end
                 ARR.w1(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).w1 * SIM.B1;
                 ARR.TxA(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).TxA;
-                ARR.woff(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).woff;
+                ARR.woff(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).gwoff + SIM.woff;
             end
         end
     end

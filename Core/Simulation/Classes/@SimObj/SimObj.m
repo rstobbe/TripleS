@@ -41,7 +41,7 @@ classdef SimObj < handle
 % Set
 %==================================================================           
         % SetMagnetRelated
-        function SetMagnetRelated(SIM,B1,OffRes)
+        function SetMagnetRelated(SIM,B1,OffRes)              
             SIM.B1 = B1;
             SIM.OffRes = OffRes;
             SIM.woff = OffRes*2*pi/1000;
@@ -49,6 +49,11 @@ classdef SimObj < handle
         % SetB1
         function SetB1(SIM,B1)
             SIM.B1 = B1;
+        end
+        % SetOffResonance
+        function SetOffResonance(SIM,OffRes)
+            SIM.OffRes = OffRes;
+            SIM.woff = OffRes*2*pi/1000;
         end
         % SetGeneralSequence
         function SetGeneralSequence(SIM,Gave,PCave,RfSpoil,SS)

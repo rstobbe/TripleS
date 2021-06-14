@@ -56,30 +56,42 @@ elseif shape == 3
 %   Aout = 180*Aout/pi;
 %   test = 0;
    
-elseif shape == 4                       % This is actually a 5 lobe sinc
+elseif shape == 4 | strcmp(shape,'Sinc (3 lobes)')                         
 %   fix
-   %p90 = 5.627;   
-   p90 = 5.99;
+%    %p90 = 5.627;   
+%    p90 = 5.99;
+%    w1 = (ifa*p90)/len;
+%    lobes = 5;
+%    x = (-floor(N/2):1:ceil(N/2)-1);
+%    x = x * (((lobes-1)/2+1)/floor(N/2));
+%    %Pout = w1 * sinc(x);
+%    Pout = w1 * sinc(x) .* hamming(length(x))';
+%    Pout = reshape(Pout,1,[]);
+%    Aout = ones(1,N)*phase;
+
+elseif shape == 5 | strcmp(shape,'Sinc (5 lobes)')                         
+   p90 = 5.627;     
+%    p90 = 5.99;
    w1 = (ifa*p90)/len;
    lobes = 5;
    x = (-floor(N/2):1:ceil(N/2)-1);
    x = x * (((lobes-1)/2+1)/floor(N/2));
-   %Pout = w1 * sinc(x);
-   Pout = w1 * sinc(x) .* hamming(length(x))';
+   Pout = w1 * sinc(x);
+%    Pout = w1 * sinc(x) .* hamming(length(x))';
    Pout = reshape(Pout,1,[]);
-   Aout = ones(1,N)*phase;
+   Aout = ones(1,N)*phase;   
    
-elseif shape == 5                       % This is actually a 7 lobe sinc
-   fix
-   lobes = 5;
-   p90 = 9.6134;
-   w1 = (ifa*p90)/len;
-   x = [-floor(N/2):1:ceil(N/2)-1];
-   x = x * (lobes/floor(N/2)); 
-   Pout = sinc(x);
-   Pout = Pout * w1;
-   Pout = reshape(Pout,1,[]);
-   Aout = ones(1,N)*phase;
+% elseif shape == 5 | strcmp(shape,'Sinc (5 lobes)')                        % This is actually a 7 lobe sinc
+%    fix
+%    lobes = 5;
+%    p90 = 9.6134;
+%    w1 = (ifa*p90)/len;
+%    x = [-floor(N/2):1:ceil(N/2)-1];
+%    x = x * (lobes/floor(N/2)); 
+%    Pout = sinc(x);
+%    Pout = Pout * w1;
+%    Pout = reshape(Pout,1,[]);
+%    Aout = ones(1,N)*phase;
 end
 
 %-------------------------------------
