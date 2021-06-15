@@ -11,7 +11,8 @@ classdef SequenceClass < handle
         Flip;
         Phase;
         Grad;
-        PhaseCyc;
+        Acq2AcqPhaseCyc;
+%        Ave2AvePhaseCyc;       % still to add in...
         Step;
         gwoff; w1; TxA; RxA;
         SolSteps;
@@ -39,7 +40,7 @@ classdef SequenceClass < handle
             SEQ.Flip = Flip;
             SEQ.Phase = Phase;                
             SEQ.Grad = Grad;
-            SEQ.PhaseCyc = PhaseCyc;
+            SEQ.Acq2AcqPhaseCyc = PhaseCyc;
             SEQ.Step = Step;
             CreateSequence(SEQ,SIM);
             SEQ.SolSteps = length(SEQ.w1);          

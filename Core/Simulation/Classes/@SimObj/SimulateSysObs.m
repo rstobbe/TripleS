@@ -7,15 +7,14 @@ function SIM = SimulateSysObs(SIM)
 %-----------------------------------------------------
 % Solve 
 %-----------------------------------------------------
-%poolobj = gcp;
-%addAttachedFiles(poolobj,{'SolveSingleSpin.m','SpinDynamicsRobTotal3.m'})
-fSolveSingleSpin = @(TotSolSteps,SSnum,StepDur,w1,TxA,woff,wq,J0,J1,J2,T,iPC,iGA) SolveSingleSpin(TotSolSteps,SSnum,StepDur,w1,TxA,woff,wq,J0,J1,J2,T,iPC,iGA);
+fSolveSingleSpin = @(TotSolSteps,SSnum,StepDur,w1,TxA,RxA,woff,wq,J0,J1,J2,T,iPC,iGA) SolveSingleSpin(TotSolSteps,SSnum,StepDur,w1,TxA,RxA,woff,wq,J0,J1,J2,T,iPC,iGA);
 
 ARR = SIM.ARR;
 TotSolSteps = ARR.TotSolSteps;
 StepDur = ARR.StepDur;
 w1 = ARR.w1;
 TxA = ARR.TxA;
+RxA = ARR.RxA;
 woff = ARR.woff;
 
 SSnum = SIM.SS;
@@ -52,7 +51,7 @@ for iMod = 1:Models
             wq = wqArr(iRQ);
             for iPC = 1:PCaves 
                 for iGA = 1:Gaves
-                    T(:,:,iPC,iGA,iRQ) = SolveSingleSpin(TotSolSteps,SSnum,StepDur,w1,TxA,woff,wq,J0,J1,J2,T(:,:,iPC,iGA,iRQ),iPC,iGA);
+                    T(:,:,iPC,iGA,iRQ) = SolveSingleSpin(TotSolSteps,SSnum,StepDur,w1,TxA,RxA,woff,wq,J0,J1,J2,T(:,:,iPC,iGA,iRQ),iPC,iGA);
                 end
             end
         end
@@ -61,7 +60,7 @@ for iMod = 1:Models
             wq = wqArr(iRQ);
             for iPC = 1:PCaves 
                 for iGA = 1:Gaves                 
-                    T(:,:,iPC,iGA,iRQ) = feval(fSolveSingleSpin,TotSolSteps,SSnum,StepDur,w1,TxA,woff,wq,J0,J1,J2,T(:,:,iPC,iGA,iRQ),iPC,iGA);
+                    T(:,:,iPC,iGA,iRQ) = feval(fSolveSingleSpin,TotSolSteps,SSnum,StepDur,w1,TxA,RxA,woff,wq,J0,J1,J2,T(:,:,iPC,iGA,iRQ),iPC,iGA);
                 end
             end
         end

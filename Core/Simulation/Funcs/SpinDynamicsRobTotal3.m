@@ -5,7 +5,7 @@
 function [Tout] = SpinDynamicsRobTotal3(t,w1,A,wof,wq,J0,J1,J2,Tin)
 
 %Rotate
-Tin = Phase_Change(A,Tin);
+Tin = PhaseChange(A,Tin);
 
 %Excitation
 Ex =     [0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0     ,     0     ,     0     ,     0; ...         % Constant
@@ -105,6 +105,6 @@ sol = exp(D*t) .* eye(16);
 
 Tout = V * sol * V^-1 * Tin;
 
-Tout = Phase_Change(-A,Tout);
+Tout = PhaseChange(-A,Tout);
 
 test = 0;

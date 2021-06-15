@@ -5,8 +5,8 @@
 classdef SimObj < handle
 
     properties (SetAccess = private)                    
-        B1; OffRes; woff;
-        Gave; PCave; SS; RfSpoil;
+        RelB1; OffRes; woff;
+        Gave; GaveArr; PCave; SS; RfSpoil;
         Models; SeqElms; AcqElm;
         TeStep;
         MOD;
@@ -25,8 +25,12 @@ classdef SimObj < handle
         end
         % Initialize
         function Initialize(SIM)
-            SIM.B1 = 1; SIM.OffRes = 0; SIM.woff = 0;
-            SIM.Gave = 1; SIM.PCave = 1; SIM.SS = 1; SIM.RfSpoil = 0;
+            SIM.RelB1 = 1; 
+            SIM.OffRes = 0; SIM.woff = 0;
+            SIM.Gave = 4; SIM.GaveArr = [-1/2 0 1/2 1]; 
+            SIM.PCave = 1; 
+            SIM.SS = 20; 
+            SIM.RfSpoil = 0;
         end
         % InitializeSequence
         function InitializeSequence(SIM,Length)
@@ -41,14 +45,14 @@ classdef SimObj < handle
 % Set
 %==================================================================           
         % SetMagnetRelated
-        function SetMagnetRelated(SIM,B1,OffRes)              
-            SIM.B1 = B1;
+        function SetMagnetRelated(SIM,RelB1,OffRes)              
+            SIM.RelB1 = RelB1;
             SIM.OffRes = OffRes;
             SIM.woff = OffRes*2*pi/1000;
         end
-        % SetB1
-        function SetB1(SIM,B1)
-            SIM.B1 = B1;
+        % SetRelB1
+        function SetRelB1(SIM,RelB1)
+            SIM.RelB1 = RelB1;
         end
         % SetOffResonance
         function SetOffResonance(SIM,OffRes)

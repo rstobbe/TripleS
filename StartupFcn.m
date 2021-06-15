@@ -4,8 +4,7 @@
 
 function StartupFcn(APP)
 
-%currentdir = cd;
-currentdir = 'D:\Compass\6 TripleS';
+currentdir = cd;
 addpath(genpath(currentdir));
 
 %--------------------------------------------------------

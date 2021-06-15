@@ -30,6 +30,10 @@ if str2double(APP.segmentsequence.Value) == 0
     Step = Dur;
 else
     Step = str2double(APP.(['step',SeqElmChar]).Value);
+    if isnan(Step)
+        APP.(['step',SeqElmChar]).Value = num2str(Dur);
+        Step = Dur;
+    end    
     Dur = Step*round(Dur/Step);
     APP.(['length',SeqElmChar]).Value = num2str(Dur,'%8.8g');
 end
@@ -51,10 +55,4 @@ else
     APP.TRep.Value = num2str(APP.SIM.ARR.tArr(end));
 end
 
-%--------------------------------------------
-% Calculate SAR
-%--------------------------------------------
-% SAR = SAR_Int_Calc(pulses,timing);
-% x = findobj('type','uicontrol','tag','SAR');
-% set(x,'string',num2str(SAR));
 

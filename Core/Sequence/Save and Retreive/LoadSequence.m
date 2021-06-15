@@ -7,7 +7,7 @@ function LoadSequence(APP,Event)
 %---------------------------------------------------
 % Location
 %---------------------------------------------------
-[file,path] = uigetfile('*.mat','Save Model',[APP.Paths.SequencePath,'\*.mat']);
+[file,path] = uigetfile('*.mat','Load Sequence',[APP.Paths.SequencePath,'\*.mat']);
 Name = strtok(file,'.');
 if Name == 0
     return

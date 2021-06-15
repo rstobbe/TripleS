@@ -60,9 +60,20 @@ for iPC = 1:SIM.PCave
                 if isempty(SIM.SEQ(iSeq).Type) || strcmp(SIM.SEQ(iSeq).Type,'Don''t Use')  
                     continue
                 end
-                ARR.w1(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).w1 * SIM.B1;
-                ARR.TxA(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).TxA;
-                ARR.woff(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).gwoff + SIM.woff;
+                ARR.w1(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).w1 * SIM.RelB1;
+                ARR.gwoff(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).gwoff;        % just for drawing 
+                ARR.woff(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.GaveArr(iGave) * SIM.SEQ(iSeq).gwoff + SIM.woff;
+                if iSS == 1
+                    ARR.TxA(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = SIM.SEQ(iSeq).TxA;
+                    if strcmp(SIM.SEQ(iSeq).Type,'Acquire')  
+                        ARR.RxA(iSS) = SIM.SEQ(iSeq).RxA;
+                    end
+                else
+                    ARR.TxA(iPC,iGave,iSS,SolStepStart(iSeq):SolStepStop(iSeq)) = ARR.TxA(iPC,iGave,iSS-1,SolStepStart(iSeq):SolStepStop(iSeq)) + SIM.SEQ(iSeq).Acq2AcqPhaseCyc;
+                    if strcmp(SIM.SEQ(iSeq).Type,'Acquire') 
+                        ARR.RxA(iSS) = ARR.RxA(iSS-1) + SIM.SEQ(iSeq).Acq2AcqPhaseCyc;
+                    end
+                end
             end
         end
     end
@@ -74,15 +85,19 @@ SIM.ARR = ARR;
 % Timing
 %-----------------------------------------------
 w1 = squeeze(ARR.w1(1,1,1,:));
+gwoff = squeeze(ARR.gwoff(1,1,1,:));
 w1Arr = zeros(1,2*(length(w1)+1));
+GArr = zeros(1,2*(length(gwoff)+1));
 tArr = zeros(1,2*(length(w1)+1));
 time = 0;
 for n = 1:length(ARR.StepDur)
     w1Arr(2*n:2*n+1) = w1(n);
+    GArr(2*n:2*n+1) = gwoff(n)/pi;
     tArr(2*n+1:2*n+2) = tArr(2*n) + ARR.StepDur(n);
     time(n+1) = time(n) + ARR.StepDur(n);
 end
 SIM.ARR.w1Arr = w1Arr;
+SIM.ARR.GArr = GArr;
 SIM.ARR.tArr = tArr;
 SIM.ARR.time = time;
 SIM.ARR.SegBounds = SegBounds;

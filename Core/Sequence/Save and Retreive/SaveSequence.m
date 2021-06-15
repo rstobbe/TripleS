@@ -8,7 +8,7 @@ function SaveSequence(APP,Event)
 % Location
 %---------------------------------------------------
 Name = APP.SeqName.Value;
-[file,path] = uiputfile('*.mat','Save Model',[APP.Paths.SequencePath,'\',Name,'.mat']);
+[file,path] = uiputfile('*.mat','Save Sequence',[APP.Paths.SequencePath,'\',Name,'.mat']);
 Name = strtok(file,'.');
 if Name == 0
     return
