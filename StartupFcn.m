@@ -5,7 +5,7 @@
 function StartupFcn(APP)
 
 currentdir = cd;
-addpath(genpath(currentdir));
+% addpath(genpath(currentdir));
 
 %--------------------------------------------------------
 % Paths

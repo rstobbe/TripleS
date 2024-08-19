@@ -12,7 +12,7 @@ end
 
 plot(APP.axes1,APP.SIM.ARR.tArr,1000*APP.SIM.ARR.w1Arr/(2*pi),'b','linewidth',2);
 APP.axes1.XLim = [0 max(APP.SIM.ARR.time)];
-APP.axes1.YLim = [0 1000];
+APP.axes1.YLim = [0 3000];
 APP.axes1.BackgroundColor = [0.5 0.5 0.5];
 APP.axes1.XColor = [1 1 1];
 APP.axes1.YColor = [1 1 1];

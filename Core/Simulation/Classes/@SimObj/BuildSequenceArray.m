@@ -9,6 +9,12 @@ function SIM = BuildSequenceArray(SIM)
 %-----------------------------------------------------
 SolSteps = [];
 SegBounds = 0;
+SIM.Gave = 1;
+for iSeq = 1:SIM.SeqElms
+    if strcmp(SIM.SEQ(iSeq).Type,'Gradient Spoil')
+        SIM.Gave = 4;
+    end
+end   
 for iSeq = 1:SIM.SeqElms
     if isempty(SIM.SEQ(iSeq).Type) || strcmp(SIM.SEQ(iSeq).Type,'Don''t Use')  
         SegBounds(iSeq+1) = SegBounds(iSeq);

@@ -83,19 +83,21 @@ for k = 1:6
     line = APP.(['linetype',num2str(k)]).Value;
     lbl = {[APP.(['modelnum',num2str(k)]).Value,' ',APP.(['observe',num2str(k)]).Value]};
     plot(time,100*real(A),line,'linewidth',linewidth);
+    %plot(time,100*real(A)/sin(pi*60/180),line,'linewidth',linewidth);
     if k == 1
         LBL1 = lbl;
     else
         LBL1 = cat(1,LBL1,lbl);
     end
 end
-plot([0 max(time)],[0 0],'k:');
+%plot([0 max(time)],[0 0],'k:');
 
 SegBounds = APP.SIM.ARR.SegBounds;
 for n = 2:length(SegBounds)-1
     plot([SegBounds(n) SegBounds(n)],[-100 100],'k:');
 end
 
+%ylim([0 100]);
 ylim([-100 100]);
 xlim([0 max(time)]);
 set(gca,'fontsize',axisfont);
@@ -104,6 +106,32 @@ set(gca,'xticklabelmode','auto');
 xlabel('(ms)','fontsize',labelfont);
 ylabel('Relative Magnetic Moment','fontsize',labelfont);
 set(gcf,'units','inches');
-set(gcf,'position',graphsize);
-set(gca,'Position',[0.12 0.12 0.8 0.7]);
+%set(gcf,'position',graphsize);
+set(gcf,'position',[4 4 3 2]);
+%set(gca,'Position',[0.12 0.12 0.8 0.7]);
 box on;
+
+ind = find(round(time*1000) == round(SegBounds(2)*1000));
+TimeAcq = time(ind:end) - time(ind);
+SimAcq = A(ind:end);
+%FlipCor = 72.6;
+%FlipCor = 108.9;
+%FlipCor = 145.2;
+FlipCor = 96.8;
+SimAcq = SimAcq/sin(pi*FlipCor/180);
+Est = [0.7 0.5 0.1 5];
+[P,Resid] = nlinfit(TimeAcq,SimAcq,@RegBiex,Est);
+P
+figure(2135); hold on;
+plot(TimeAcq,SimAcq,'m');
+plot(TimeAcq,RegBiex(P,TimeAcq),'k');
+ylim([0 1]);
+xlim([0 2]);
+box on;
+
+end
+
+function F = RegBiex(P,t) 
+    F = P(1) * (P(2)*exp(-t/P(3)) + (1-P(2))*exp(-t/P(4)));
+end
+

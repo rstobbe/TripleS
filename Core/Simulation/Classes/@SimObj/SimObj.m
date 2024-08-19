@@ -26,10 +26,12 @@ classdef SimObj < handle
         % Initialize
         function Initialize(SIM)
             SIM.RelB1 = 1; 
-            SIM.OffRes = 0; SIM.woff = 0;
-            SIM.Gave = 4; SIM.GaveArr = [-1/2 0 1/2 1]; 
+            SIM.OffRes = 0; 
+            SIM.woff = 0;
+            SIM.Gave = 1; 
+            SIM.GaveArr = [-1/2 0 1/2 1]; 
             SIM.PCave = 1; 
-            SIM.SS = 20; 
+            SIM.SS = 1; 
             SIM.RfSpoil = 0;
         end
         % InitializeSequence
@@ -50,9 +52,17 @@ classdef SimObj < handle
             SIM.OffRes = OffRes;
             SIM.woff = OffRes*2*pi/1000;
         end
+        % SetReps
+        function SetReps(SIM,Reps)
+            SIM.SS = Reps;
+        end
         % SetRelB1
         function SetRelB1(SIM,RelB1)
             SIM.RelB1 = RelB1;
+        end
+        % DisplayRelB1
+        function DisplayRelB1(SIM,APP)  
+            APP.relB1.Value = num2str(SIM.RelB1); 
         end
         % SetOffResonance
         function SetOffResonance(SIM,OffRes)
@@ -93,8 +103,23 @@ classdef SimObj < handle
             Flip = SIM.SEQ(ElmNum).Flip;
             Phase = SIM.SEQ(ElmNum).Phase;
             Grad = SIM.SEQ(ElmNum).Grad;
-            PhaseCyc = SIM.SEQ(ElmNum).PhaseCyc;
+            PhaseCyc = SIM.SEQ(ElmNum).Acq2AcqPhaseCyc;
             Step = SIM.SEQ(ElmNum).Step;
+        end
+        % SetFlipConstB1
+        function SetFlipConstB1(SIM,Flip,APP)
+            ElmNum = 1;
+            [Type,Dur0,RfShape,Flip0,Phase,Grad,PhaseCyc,Step] = GetSequenceElement(SIM,ElmNum);
+            if ~strcmp(Type,'RF Pulse')
+                error
+            end
+            W1 = (Flip0/360)/Dur0;
+            Dur = (Flip/360)/W1;
+            Step = Dur;
+            SIM.SetSequenceElement(ElmNum,Type,Dur,RfShape,Flip,Phase,Grad,PhaseCyc,Step);
+            APP.idealflip01.Value = num2str(Flip); 
+            APP.length01.Value = num2str(Dur);
+            APP.step01.Value = num2str(Step);
         end
         
 %==================================================================
@@ -121,7 +146,22 @@ classdef SimObj < handle
         % TeT11s
         function [Vals] = TeT11s(SIM)    
             Vals = 100*squeeze(real(1i*SIM.ToutMat(3,SIM.TeStep,:)));
-        end  
+        end
+        
+%==================================================================
+% Display Output
+%==================================================================   
+        % TeMxy
+        function [Vals] = DispTeMxy(SIM,APP,Vals)    
+            for n = 1:3
+                APP.(['te_val',num2str(n)]).Value = num2str(Vals(n));
+                if Vals(n) == 0
+                    APP.(['te_val',num2str(n)]).Value = '';
+                end
+            end
+            APP.go.BackgroundColor = [0.96 0.96 0.96];
+        end        
+        
     end
 end
         
