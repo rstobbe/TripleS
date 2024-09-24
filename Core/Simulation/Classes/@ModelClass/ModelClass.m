@@ -63,12 +63,22 @@ classdef ModelClass < handle
             MOD.J1 = JN;
             MOD.J2 = JN;
         end
+        % SetP1
+        function SetP1(MOD,p1)  
+            MOD.p1 = p1;
+            RqiDistributions(MOD); 
+        end
         % SetP2
         function SetP2(MOD,p2)  
             MOD.p2 = p2;
             RqiDistributions(MOD); 
         end
-        
+        % SetDist
+        function SetDist(MOD,dist)  
+            MOD.dist = dist;
+            RqiDistributions(MOD); 
+        end
+
 %==================================================================
 % Display
 %==================================================================           

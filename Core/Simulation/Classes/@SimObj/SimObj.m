@@ -69,6 +69,10 @@ classdef SimObj < handle
             SIM.OffRes = OffRes;
             SIM.woff = OffRes*2*pi/1000;
         end
+        % DisplayOffResonance
+        function DisplayOffResonance(SIM,APP)  
+            APP.offres.Value = num2str(SIM.OffRes); 
+        end
         % SetGeneralSequence
         function SetGeneralSequence(SIM,Gave,PCave,RfSpoil,SS)
             SIM.Gave = Gave;
@@ -153,7 +157,7 @@ classdef SimObj < handle
 %==================================================================   
         % TeMxy
         function [Vals] = DispTeMxy(SIM,APP,Vals)    
-            for n = 1:3
+            for n = 1:length(Vals)
                 APP.(['te_val',num2str(n)]).Value = num2str(Vals(n));
                 if Vals(n) == 0
                     APP.(['te_val',num2str(n)]).Value = '';

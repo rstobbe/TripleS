@@ -114,12 +114,14 @@ box on;
 ind = find(round(time*1000) == round(SegBounds(2)*1000));
 TimeAcq = time(ind:end) - time(ind);
 SimAcq = A(ind:end);
-%FlipCor = 72.6;
+%FlipCor = 72.6;            % these four are for the 4 flips of Jings paper (with rB1 included)
 %FlipCor = 108.9;
 %FlipCor = 145.2;
-FlipCor = 96.8;
+%FlipCor = 96.8;
+FlipCor = 100;
 SimAcq = SimAcq/sin(pi*FlipCor/180);
 Est = [0.7 0.5 0.1 5];
+% TimeAcq = TimeAcq + 0.06;
 [P,Resid] = nlinfit(TimeAcq,SimAcq,@RegBiex,Est);
 P
 figure(2135); hold on;
