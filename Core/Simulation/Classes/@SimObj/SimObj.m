@@ -64,6 +64,22 @@ classdef SimObj < handle
         function DisplayRelB1(SIM,APP)  
             APP.relB1.Value = num2str(SIM.RelB1); 
         end
+        % DisplaySequence
+        function DisplaySequence(SIM,APP)      
+            for n = 1:12
+                SeqElmChar = num2str(n,'%02.0f');
+                if strcmp(SIM.SEQ(n).Type,'Don''t Use')
+                    SetSequenceVisibility(APP,SeqElmChar,SIM.SEQ(n).Type);
+                end
+                APP.(['length',SeqElmChar]).Value = num2str(SIM.SEQ(n).Dur);
+                APP.(['shape',SeqElmChar]).Value = SIM.SEQ(n).RfShape;
+                APP.(['idealflip',SeqElmChar]).Value = num2str(SIM.SEQ(n).Flip);
+                APP.(['phase',SeqElmChar]).Value = num2str(SIM.SEQ(n).Phase);
+                APP.(['grads',SeqElmChar]).Value = num2str(SIM.SEQ(n).Grad);
+                APP.(['pphasecyc',SeqElmChar]).Value = num2str(SIM.SEQ(n).Acq2AcqPhaseCyc);
+                APP.(['step',SeqElmChar]).Value = num2str(SIM.SEQ(n).Step);
+            end
+        end
         % SetOffResonance
         function SetOffResonance(SIM,OffRes)
             SIM.OffRes = OffRes;

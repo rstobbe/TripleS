@@ -128,7 +128,27 @@ classdef ModelClass < handle
             APP.(['p2',ModChar]).Value = num2str(MOD.p2);            
             APP.(['nave',ModChar]).Value = num2str(MOD.Nave);   
         end
-
+        % ActivateModel
+        function ActivateModel(MOD,APP)
+            ModChar = num2str(MOD.ModNum);
+            APP.(['te_val',ModChar]).Enable = 'on';
+            APP.(['SDModel',ModChar]).Enable = 'on';
+            APP.(['J0',ModChar]).Enable = 'on';
+            APP.(['J1',ModChar]).Enable = 'on';
+            APP.(['J2',ModChar]).Enable = 'on';
+            APP.(['dist',ModChar]).Enable = 'on'; 
+            APP.(['p1',ModChar]).Enable = 'off';
+            APP.(['p2',ModChar]).Enable = 'off';
+            APP.(['nave',ModChar]).Enable = 'off';
+            APP.(['SDModel',ModChar]).Value = '';
+            APP.(['J0',ModChar]).Value = '0';
+            APP.(['J1',ModChar]).Value = '0';
+            APP.(['J2',ModChar]).Value = '0';
+            APP.(['dist',ModChar]).Value = 'None'; 
+            APP.(['p1',ModChar]).Value = '';
+            APP.(['p2',ModChar]).Value = '';
+            APP.(['nave',ModChar]).Value = '';
+        end
     end
 end
         
